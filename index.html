@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery with Filter</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+       
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Image Gallery</h1>
+        
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="nature">Nature</button>
+            <button class="filter-btn" data-filter="animals">Animals</button>
+            <button class="filter-btn" data-filter="city">City</button>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="gallery">
+            <div class="gallery-item nature">
+                <img src="nature1.jpg" alt="Nature 1">
+                <p>Nature Image 1</p>
+            </div>
+            <div class="gallery-item animals">
+                <img src="animals1.jpeg" alt="Animals 1">
+                <p>Animals Image 1</p>
+            </div>
+            <div class="gallery-item city">
+                <img src="city1.jpeg" alt="City 1">
+                <p>City Image 1</p>
+            </div>
+            <div class="gallery-item nature">
+                <img src="nature2.jpg" alt="Nature 2">
+                <p>Nature Image 2</p>
+            </div>
+            <div class="gallery-item animals">
+                <img src="animals2.jpeg" alt="Animals 2">
+                <p>Animals Image 2</p>
+            </div>
+            <div class="gallery-item city">
+                <img src="city2.jpeg" alt="City 2">
+                <p>City Image 2</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            // Container reveal animation
+            gsap.to('.container', {
+                scrollTrigger: {
+                    trigger: '.container',
+                    start: 'top center',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                duration: 1.5,
+                ease: 'power2.out'
+            });
+
+            // Heading animation with bounce
+            gsap.to('h1', {
+                scrollTrigger: {
+                    trigger: 'h1',
+                    start: 'top center+=100',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'elastic.out(1, 0.3)'
+            });
+
+            // Filter buttons slide in animation
+            gsap.to('.filter-buttons', {
+                scrollTrigger: {
+                    trigger: '.filter-buttons',
+                    start: 'top center+=50',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                ease: 'power4.out'
+            });
+
+            // Animate each filter button individually
+            gsap.utils.toArray('.filter-btn').forEach((btn, i) => {
+                gsap.from(btn, {
+                    scrollTrigger: {
+                        trigger: '.filter-buttons',
+                        start: 'top center+=50',
+                        toggleActions: 'play none none reverse'
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    delay: i * 0.2,
+                    ease: 'back.out(1.7)'
+                });
+            });
+
+            // Gallery items stagger animation
+            gsap.to('.gallery-item', {
+                scrollTrigger: {
+                    trigger: '.gallery',
+                    start: 'top center+=100',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: {
+                    amount: 1.5,
+                    from: "random"
+                },
+                ease: 'back.out(1.7)'
+            });
+
+            // Parallax effect on scroll for gallery items
+            gsap.utils.toArray('.gallery-item').forEach(item => {
+                gsap.to(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1
+                    },
+                    y: 50,
+                    ease: 'none'
+                });
+            });
+
+            // Hover animations for gallery items
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    gsap.to(item.querySelector('img'), {
+                        scale: 1.1,
+                        filter: 'blur(3px)',
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                    gsap.to(item.querySelector('p'), {
+                        y: 0,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(item.querySelector('img'), {
+                        scale: 1,
+                        filter: 'blur(0)',
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                    gsap.to(item.querySelector('p'), {
+                        y: '100%',
+                        duration: 0.5,
+                        ease: 'power2.in'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
