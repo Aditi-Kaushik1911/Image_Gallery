@@ -12,4 +12,10 @@ Navigation Controls: Easily navigate between images using arrows or keyboard key
 Lazy Loading: Images load as they come into view for faster performance.
 
 This project is ideal for showcasing portfolios, photography collections, or personal photo albums. 
-It provides a hands-on opportunity to practice HTML, CSS, and JavaScript skills.
+It provides a hands-on opportunity to practice HTML, CSS, and JavaScript skills
+
+How to run file:
+step1: clone repositary to Desktop 
+step2: open index.html
+step3: run index.html
+
